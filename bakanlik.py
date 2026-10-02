@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Çamaşır Makinesi Diplomasi Bakanlığı — çalışan kriz masası."""
+"""Camasir Makinesi Diplomasi Bakanligi — calisan kriz masasi."""
 
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ TALEPLER = [
 ]
 
 KARARLAR = [
-    "ateşkes ilan edildi, pembe tonu kabul edildi",
+    "ateskes ilan edildi, pembe tonu kabul edildi",
     "tazminat: bir yemek kasigi yumusatici",
     "sorumluluk tambura yazildi, tambur konusmadi",
     "dosya kapaga iade edildi",
@@ -38,11 +38,12 @@ KARARLAR = [
     "makine dengesiz, baris da dengesiz",
 ]
 
-# Arsiv notu. Duvarda asili degil, kodun icinde.
+# Arsiv notu. Duvarda asili degil. Cozmek icin --gizli.
 _ARSIV = (
-    "YnXDn2zEsWsgdGFtYnVyZGEgaGVyIGtleWZlIHDDtnJhIGbEsWthaW5pbiBhw7ğ
-    "bmluYSBk8O3dlci4gS2F5eXVtIGR1cnVsbWEgYmFzbWF6OyB5dXJ0dGHDp2xhciBhaW5p"
-    "IHRhbWJ1cmRhIGthbMSxciwga2ltc2Ugc2VjZW1lei4="
+    "QnV0dW4gcGFydGlsZXIgYXluaSB0YW1idXJkYSBkb25lci4gS2F5eXVtIGR1cnVs"
+    "YW1hIHR1c3VuYSBiYXNhbiBraXNpZGlyOyBzZWNpbSBpc2Uga2FwYWdpbiBhY2ls"
+    "bWFzaWRpci4gS2ltc2UgcHJvZ3JhbWkgdGVrIGJhc2luYSBzZWNlbWV6LCBoZXJr"
+    "ZXMgaXNsYW5pci4="
 )
 
 
@@ -53,10 +54,11 @@ def tohum_uret(metin: str) -> int:
 
 def oturum(kriz: str, tur: int, sicaklik: int) -> list[str]:
     rng = random.Random(tohum_uret(f"{kriz}|{tur}|{sicaklik}"))
+    ton = "diplomasi" if sicaklik < 60 else "ultimatom"
     satirlar = [
-        "ÇMDB KRIZ MASASI AÇILDI",
+        "CMDB KRIZ MASASI ACILDI",
         f"Konu: {kriz}",
-        f"Su: {sicaklik} derece ({'diplomasi' if sicaklik < 60 else 'ultimatom'})
+        f"Su: {sicaklik} derece ({ton})",
         f"Tur sayisi: {tur}",
         "-" * 42,
     ]
@@ -65,14 +67,14 @@ def oturum(kriz: str, tur: int, sicaklik: int) -> list[str]:
         talep = rng.choice(TALEPLER)
         karar = rng.choice(KARARLAR)
         if sicaklik >= 90 and rng.random() < 0.4:
-            karar = "kumas çekti, anlaşma da çekti"
+            karar = "kumas cekti, anlasma da cekti"
         satirlar.append(f"TUR {n} | {taraf}")
         satirlar.append(f"  talep: {talep}")
         satirlar.append(f"  karar: {karar}")
     kayip = rng.choice(["sol corap", "sag corap", "dugme", "kimse"])
     satirlar.append("-" * 42)
     satirlar.append(f"KAPANIS: bu yikamanin kaybi -> {kayip}")
-    satirlar.append("Tebliğ yürürlüktedir. Kuruyunca da.")
+    satirlar.append("Teblig yururluktedir. Kuruyunca da.")
     return satirlar
 
 
@@ -86,19 +88,19 @@ def gizli_not() -> str:
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(
-        description="Çamaşır Makinesi Diplomasi Bakanlığı kriz masası"
+        description="Camasir Makinesi Diplomasi Bakanligi kriz masasi"
     )
     p.add_argument(
         "--kriz",
-        default="beyazlar pembe oldu, kimse üstlenmiyor",
-        help="gündem maddesi",
+        default="beyazlar pembe oldu, kimse ustlenmiyor",
+        help="gundem maddesi",
     )
-    p.add_argument("--tur", type=int, default=4, help="müzakere turu")
+    p.add_argument("--tur", type=int, default=4, help="muzakere turu")
     p.add_argument("--sicaklik", type=int, default=40, help="derece")
     p.add_argument(
         "--gizli",
         action="store_true",
-        help="duvarın arkasındaki arşiv notunu bas",
+        help="duvarin arkasindaki arsiv notunu bas",
     )
     args = p.parse_args(argv)
     if args.tur < 1:
